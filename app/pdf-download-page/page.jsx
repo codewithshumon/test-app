@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import ModernInvoice from "../components/ModernInvoice";
 import { useRef } from 'react';
@@ -9,7 +9,32 @@ const Page = () => {
 
   const generatePDF = async () => {
     try {
-      const invoiceContent = invoiceRef.current.innerHTML;
+      if (!invoiceRef.current) {
+        throw new Error("Invoice element not found.");
+      }
+      // Clone the node to avoid manipulating the original element
+      const invoiceElement = invoiceRef.current.cloneNode(true);
+      
+      // Get all computed styles
+      const styles = window.getComputedStyle(invoiceRef.current);
+      let cssText = "";
+      for (const style of styles) {
+        cssText += `${style}: ${styles.getPropertyValue(style)};\n`;
+      }
+
+      // In-line all the styles
+      const elements = invoiceElement.getElementsByTagName('*');
+      for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const elementStyles = window.getComputedStyle(element);
+        let elementCssText = "";
+        for (const style of elementStyles) {
+          elementCssText += `${style}: ${elementStyles.getPropertyValue(style)};\n`;
+        }
+        element.style.cssText = elementCssText;
+      }
+
+      const invoiceContent = invoiceElement.innerHTML;
       
       const htmlContent = `
         <!DOCTYPE html>
@@ -29,7 +54,7 @@ const Page = () => {
               page-break-after: always;
               position: relative;
               height: 100%;
-              padding-bottom: 110px; /* This will apply to each page */
+              padding-bottom: 110px;
               box-sizing: border-box;
             }
             .page:last-child {
@@ -45,7 +70,7 @@ const Page = () => {
               z-index: -1;
             }
             .invoice-container {
-              padding: 50mm;
+              padding: 20mm; /* Adjusted padding for better fit */
             }
           </style>
         </head>
@@ -53,7 +78,7 @@ const Page = () => {
           <div class="page">
             <div class="invoice-container">${invoiceContent}</div>
             <div class="watermark">
-              <img src="${image}" alt="Watermark" />
+              <img src="${image}" alt="Watermark" style="width: 100%; height: 100%; object-fit: cover;"/>
             </div>
           </div>
         </body>
@@ -69,7 +94,7 @@ const Page = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate PDF');
+        throw new Error(`Failed to generate PDF: ${response.statusText}`);
       }
 
       const blob = await response.blob();
@@ -84,7 +109,7 @@ const Page = () => {
 
     } catch (error) {
       console.error('Error generating PDF:', error);
-      alert('Failed to generate PDF');
+      alert('Failed to generate PDF. See the console for more details.');
     }
   };
 
@@ -95,7 +120,7 @@ const Page = () => {
           <ModernInvoice />
         </div>
         <div className="mt-10">
-          <button  
+          <button   
             onClick={generatePDF}
             className="text-center text-[#222121] cursor-pointer w-full no-print"
           >
@@ -107,4 +132,5 @@ const Page = () => {
     </div>
   );
 };
+
 export default Page;

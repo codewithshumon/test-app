@@ -1,4 +1,5 @@
 import React from "react";
+import '@/public/css/invoiceStyle.css'
 
 const ModernInvoice = () => {
   const invoiceData = {
@@ -128,42 +129,42 @@ const ModernInvoice = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-lg">
+    <div className="invoice-container">
       {/* Header */}
-      <div className="flex justify-between items-start mb-8">
+      <div className="invoice-header">
         <div>
-          <div className="flex items-center mb-4">
+          <div className="invoice-store-info">
             {invoiceData.store.logo && (
               <img
                 src={invoiceData.store.logo.md}
                 alt="Store Logo"
-                className="h-12 w-12 mr-3"
+                className="invoice-store-logo"
               />
             )}
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="invoice-store-name">
               {invoiceData.store.name}
             </h1>
           </div>
-          <p className="text-gray-600">{invoiceData.store.address}</p>
-          <p className="text-gray-600">{invoiceData.store.phone}</p>
-          <p className="text-gray-600">{invoiceData.store.email}</p>
+          <p className="invoice-store-details">{invoiceData.store.address}</p>
+          <p className="invoice-store-details">{invoiceData.store.phone}</p>
+          <p className="invoice-store-details">{invoiceData.store.email}</p>
         </div>
 
-        <div className="text-right">
-          <h2 className="text-3xl font-bold text-indigo-600 mb-2">INVOICE</h2>
-          <p className="text-gray-600">
+        <div className="invoice-meta-container">
+          <h2 className="invoice-title">INVOICE</h2>
+          <p className="invoice-meta">
             Invoice #: {invoiceData.quotationInfo.quotationNumber}
           </p>
-          <p className="text-gray-600">
+          <p className="invoice-meta">
             Date: {formatDate(invoiceData.saleDate)}
           </p>
-          <p className="text-gray-600">
+          <p className="invoice-meta">
             Status:
             <span
-              className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${
+              className={`invoice-status ${
                 invoiceData.paymentStatus === "PAID"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-red-100 text-red-800"
+                  ? "invoice-status-paid"
+                  : "invoice-status-unpaid"
               }`}
             >
               {invoiceData.paymentStatus}
@@ -173,64 +174,54 @@ const ModernInvoice = () => {
       </div>
 
       {/* Customer Info */}
-      <div className="mb-8 p-4 bg-gray-50 rounded-lg">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">Bill To:</h3>
-        <p className="font-medium text-gray-800">
+      <div className="invoice-customer">
+        <h3 className="invoice-customer-title">Bill To:</h3>
+        <p className="invoice-customer-name">
           {invoiceData.customerInfo.name}
         </p>
-        <p className="text-gray-600">{invoiceData.customerInfo.address}</p>
-        <p className="text-gray-600">{invoiceData.customerInfo.phone}</p>
-        <p className="text-gray-600">{invoiceData.customerInfo.email}</p>
+        <p className="invoice-customer-details">{invoiceData.customerInfo.address}</p>
+        <p className="invoice-customer-details">{invoiceData.customerInfo.phone}</p>
+        <p className="invoice-customer-details">{invoiceData.customerInfo.email}</p>
       </div>
 
       {/* Items Table */}
-      <div className="mb-8 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="invoice-table-container">
+        <table className="invoice-table">
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Item
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Attributes
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Qty
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Unit Price
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Total
-              </th>
+              <th>Item</th>
+              <th>Attributes</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Total</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {invoiceData.lineItems.map((item, index) => (
               <tr key={index}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                <td>
+                  <div className="invoice-item-name">
                     {item.name}
                   </div>
-                  <div className="text-sm text-gray-500">{item.productId}</div>
+                  <div className="invoice-item-id">{item.productId}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td>
                   {item.attributes.map((attr, i) => (
                     <span
                       key={i}
-                      className="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1"
+                      className="invoice-attribute"
                     >
                       {attr}
                     </span>
                   ))}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="invoice-item-qty">
                   {item.quantity} {item.unit.name}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="invoice-item-price">
                   {invoiceData.currency} {item.unitPrice.toFixed(2)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="invoice-item-total">
                   {invoiceData.currency} {item.totalAfterDiscount.toFixed(2)}
                 </td>
               </tr>
@@ -240,183 +231,66 @@ const ModernInvoice = () => {
       </div>
 
       {/* Totals */}
-      <div className="flex justify-end">
-        <div className="w-64">
-          <div className="flex justify-between py-2 border-b border-gray-200">
-            <span className="text-gray-600">Subtotal:</span>
-            <span className="font-medium">
+      <div className="invoice-totals">
+        <div className="invoice-totals-container">
+          <div className="invoice-total-row">
+            <span className="invoice-total-label">Subtotal:</span>
+            <span className="invoice-total-value">
               {invoiceData.currency} {invoiceData.subtotal.toFixed(2)}
             </span>
           </div>
           {invoiceData.discount && (
-            <div className="flex justify-between py-2 border-b border-gray-200">
-              <span className="text-gray-600">Discount:</span>
-              <span className="font-medium text-red-500">
+            <div className="invoice-total-row">
+              <span className="invoice-total-label">Discount:</span>
+              <span className="invoice-discount-value">
                 -{invoiceData.currency} {invoiceData.discount.value.toFixed(2)}
               </span>
             </div>
           )}
           {invoiceData.deliveryCost && (
-            <div className="flex justify-between py-2 border-b border-gray-200">
-              <span className="text-gray-600">Delivery:</span>
-              <span className="font-medium">
+            <div className="invoice-total-row">
+              <span className="invoice-total-label">Delivery:</span>
+              <span className="invoice-total-value">
                 {invoiceData.currency} {invoiceData.deliveryCost.toFixed(2)}
               </span>
             </div>
           )}
           {invoiceData.vat && (
-            <div className="flex justify-between py-2 border-b border-gray-200">
-              <span className="text-gray-600">VAT:</span>
-              <span className="font-medium">
+            <div className="invoice-total-row">
+              <span className="invoice-total-label">VAT:</span>
+              <span className="invoice-total-value">
                 {invoiceData.currency} {invoiceData.vat.toFixed(2)}
               </span>
             </div>
           )}
-          <div className="flex justify-between py-4 border-b-2 border-gray-300">
-            <span className="text-lg font-semibold">Total:</span>
-            <span className="text-lg font-bold">
+          <div className="invoice-grand-total">
+            <span className="invoice-grand-total-label">Total:</span>
+            <span className="invoice-grand-total-value">
               {invoiceData.currency} {invoiceData.totalAmount.toFixed(2)}
             </span>
           </div>
-          <div className="flex justify-between py-2">
-            <span className="text-gray-600">Amount Paid:</span>
-            <span className="font-medium">
+          <div className="invoice-total-row">
+            <span className="invoice-total-label">Amount Paid:</span>
+            <span className="invoice-total-value">
               {invoiceData.currency} {invoiceData.totalPaid.toFixed(2)}
             </span>
           </div>
-          <div className="flex justify-between py-2 bg-gray-50 px-2 rounded">
-            <span className="text-gray-800 font-semibold">Balance Due:</span>
-            <span className="font-bold text-indigo-600">
+          <div className="invoice-balance-due">
+            <span className="invoice-balance-label">Balance Due:</span>
+            <span className="invoice-balance-value">
               {invoiceData.currency} {invoiceData.totalRemaining.toFixed(2)}
             </span>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
-          </div>
-          <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            <p>Thank you for your business!</p>
-            <p className="mt-1">
-              Please make all checks payable to {invoiceData.store.name}
-            </p>
-            <p className="mt-4">
-              Invoice generated by: {invoiceData.saleBy.name}
-            </p>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+      <div className="invoice-footer">
         <p>Thank you for your business!</p>
-        <p className="mt-1">
+        <p>
           Please make all checks payable to {invoiceData.store.name}
         </p>
-        <p className="mt-4">Invoice generated by: {invoiceData.saleBy.name}</p>
+        <p>Invoice generated by: {invoiceData.saleBy.name}</p>
       </div>
     </div>
   );
