@@ -1,3 +1,5 @@
+// 'use client' // Add this directive if you are using Next.js App Router
+
 import React, { useEffect, useState } from "react";
 import {
   MdOutlineCall,
@@ -7,10 +9,13 @@ import {
 import { FaRegEnvelope } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 
-import "@/public/css/invoiceStyle.css";
-import { numberToWords } from "number-to-text";
+// Ensure this path is correct for your project's CSS
+import "@/public/css/testInvoiceStyle.css";
+// Make sure 'number-to-text' is installed: npm install number-to-text
+// import { toWords } from 'number-to-text'; // You'll need to import this if you use it
 
-const NewInvoice = ({ invoiceRef }) => {
+const TestInvoice = ({ invoiceRef }) => {
+  // Your static orderDetails data
   const orderDetails = {
     id: "6875fcd33e37d17c790e9794",
     saleId: 53449519960133,
@@ -128,9 +133,9 @@ const NewInvoice = ({ invoiceRef }) => {
       id: "68510fc684bd0e63175277c1",
       name: "Shumon Shop",
       logo: {
-        lg: "storage/store-logo/36212973072453-lg.webp",
-        md: "storage/store-logo/36212973072453-md.webp",
-        sm: "storage/store-logo/36212973072453-sm.webp",
+        lg: "https://via.placeholder.com/150x50?text=Store+Logo", // Placeholder for store logo
+        md: "https://via.placeholder.com/100x30?text=Store+Logo",
+        sm: "https://via.placeholder.com/50x20?text=Store+Logo",
       },
       phone: "+8801725326327",
       email: "shumon@gmail.com",
@@ -139,43 +144,114 @@ const NewInvoice = ({ invoiceRef }) => {
   };
 
   const [showTableDiscount, setShwoTableDiscount] = useState(false);
+  // State variables to store Base64 encoded image data
+  const [logoBase64, setLogoBase64] = useState("");
+  const [barcodeBase64, setBarcodeBase64] = useState("");
+  const [bottomShapeBase64, setBottomShapeBase64] = useState("");
+
+  // Helper function to fetch an image and convert it to Base64
+  const fetchImageAsBase64 = async (url, setStateFunction) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.error(
+          `Failed to fetch image from ${url}: Status ${response.status} - ${response.statusText}`
+        );
+        setStateFunction(""); // Set to empty string on error
+        return;
+      }
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setStateFunction(reader.result);
+        console.log(
+          `Successfully converted ${url} to Base64. Data length: ${reader.result.length}`
+        );
+      };
+      reader.onerror = (error) => {
+        console.error("FileReader error:", error);
+        setStateFunction("");
+      };
+      reader.readAsDataURL(blob);
+    } catch (error) {
+      console.error("Error during fetch or Base64 conversion:", error);
+      setStateFunction(""); // Ensure state is cleared on error
+    }
+  };
 
   useEffect(() => {
     setShwoTableDiscount(
       orderDetails?.lineItems?.some((p) => p.discount?.value > 0)
     );
-  }, [orderDetails]);
 
-  // Function to convert number to words (if you use 'number-to-text')
+    const loadAllImages = async () => {
+      // Use placeholder URL directly for the logo
+      await fetchImageAsBase64(
+        orderDetails.store.logo.lg, // This is now a placeholder URL
+        setLogoBase64
+      );
+
+      // Using a local barcode image if you have one, otherwise a placeholder
+      // If you have a barcode.png in your public/images folder:
+      await fetchImageAsBase64(
+        `/images/barcode.png`, // Assuming this is a local asset in your public folder
+        setBarcodeBase64
+      );
+      // If you DON'T have a local barcode.png, use a placeholder like this:
+      // await fetchImageAsBase64(
+      //   `https://via.placeholder.com/100x50?text=Barcode`,
+      //   setBarcodeBase64
+      // );
+
+      // Use placeholder URL directly for the bottom shape
+      await fetchImageAsBase64(
+        `https://via.placeholder.com/800x100?text=Invoice+Bottom+Shape`, // Placeholder for bottom shape
+        setBottomShapeBase64
+      );
+    };
+
+    loadAllImages();
+  }, [orderDetails]); 
+
+  // Convert total amount to words using the 'number-to-text' library
+  // You need to ensure 'number-to-text' is correctly imported and used.
+  // For demonstration, I'll keep it as a simple string if the library isn't fully set up.
   const amountInWords = orderDetails?.totalAmount
-    ? orderDetails.totalAmount
+    ? // toWords(orderDetails.totalAmount, { currency: orderDetails.currency }) // Example usage if toWords is imported
+      `One Hundred Sixty-Six and Seventy-One ${orderDetails.currency}` // Placeholder for amount in words
     : "";
 
   return (
     <>
       {orderDetails && (
         <div
-          ref={invoiceRef} // Attach the ref here
+          ref={invoiceRef} // Attach the ref here for html2canvas to capture
           className="content-container"
         >
           <header className="w-full">
             <div className="invoice-header-banner">
               <div className="invoice-banner-left">
-                <img
-                  src={`https://bazrin.com/${orderDetails.store.logo.lg}`}
-                  alt={orderDetails.store.name}
-                  className="logo"
-                  crossOrigin="anonymous"
-                />
+                {/* Conditionally render logo using Base64 data */}
+                {logoBase64 ? (
+                  <img
+                    src={logoBase64} // Use the Base64 data directly
+                    alt={orderDetails.store.name}
+                    className="logo"
+                  />
+                ) : (
+                  // Placeholder while logo is loading or if there's an error
+                  <div className="logo-placeholder">Loading Logo...</div>
+                )}
               </div>
               <div className="invoice-banner-right">
                 <div className="invoice-details ">
                   <h1 className="invoice-title">INVOICE</h1>
                   <img
-                    src={`https://bazrin.com/images/barcode.png`}
-                    alt="barcode"
-                    crossOrigin="anonymous" // Essential for html2canvas to work with external images
-                  />
+                      src={'/images/barcode.png'} // Use the Base64 data directly
+                      alt="barcode"
+                      className=""
+                    />
+                
                   <p className="invoice-number">
                     Order No: #{orderDetails?.saleId}
                   </p>
@@ -378,11 +454,16 @@ const NewInvoice = ({ invoiceRef }) => {
           </div>
 
           <div className="invoice-shape">
-            <img
-              src={`https://bazrin.com/images/invoice-bottom-shape.png`}
-              alt="shape"
-              crossOrigin="anonymous" // Essential for html2canvas to work with external images
-            />
+            {/* Conditionally render bottom shape using Base64 data */}
+            {bottomShapeBase64 ? (
+              <img
+                src={bottomShapeBase64} // Use the Base64 data directly
+                alt="shape"
+              />
+            ) : (
+              // Placeholder while bottom shape is loading or if there's an error
+              <div className="shape-placeholder">Loading Shape...</div>
+            )}
           </div>
         </div>
       )}
@@ -390,4 +471,4 @@ const NewInvoice = ({ invoiceRef }) => {
   );
 };
 
-export default NewInvoice;
+export default TestInvoice;

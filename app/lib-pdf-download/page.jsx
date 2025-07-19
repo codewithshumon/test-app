@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 
 import html2canvas from 'html2canvas';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import TestInvoice from '../components/TestInvoice';
+import NewInvoice from '../components/NewInvoice';
 
 const App = () => {
   const invoiceRef = useRef(null); // Create a ref to attach to the invoice component
@@ -103,7 +103,7 @@ const App = () => {
           Download Invoice as PDF 📥
         </button>
       </div>
-      <TestInvoice invoiceRef={invoiceRef} /> {/* Pass the ref to your invoice component */}
+      <NewInvoice invoiceRef={invoiceRef} /> 
     </div>
   );
 };
