@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import NewInvoice from "../components/NewInvoice";
+import InvoicePuppet from '../components/InvoicePuppet';
+
 
 const Page = () => {
   const invoiceRef = useRef(null);
@@ -13,7 +14,7 @@ const Page = () => {
         const htmlContent = invoiceRef.current;
         const htmlContentString = htmlContent.innerHTML;
         
-        const response = await fetch('/api/pdf', {
+        const response = await fetch('/api/invoice-puppet', {
             method: 'POST',
             body: JSON.stringify({ htmlContent: htmlContentString }),
             headers: {
@@ -41,7 +42,7 @@ const Page = () => {
     <div className="w-full h-full bg-[#f3efef]">
       <div className="pt-20 bg-[#f3efef]">
         <div>
-          <NewInvoice invoiceRef={invoiceRef} />
+          <InvoicePuppet invoiceRef={invoiceRef} />
         </div>
         <div className="mt-10">
           <button   
