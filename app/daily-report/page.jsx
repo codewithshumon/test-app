@@ -41,9 +41,9 @@ const page = () => {
           pdfRef={pdfRef}
         />
       </div>
-      <div className=" w-full flex justify-center mt-5">
+      {/* <div className=" w-full flex justify-center mt-5">
         <button onClick={handleGeneratePDF} className="w-fit p-2 bg-blue-500">Download</button>
-      </div>
+      </div> */}
     </div>
   );
 };

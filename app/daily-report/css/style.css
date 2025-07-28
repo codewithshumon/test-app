@@ -1,0 +1,433 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Parisienne&display=swap");
+
+/* ===== BASE STYLES ===== */
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== CURSIVE FONT ===== */
+.cursive-font {
+  font-family: "Parisienne", cursive !important;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: normal;
+  /* text-shadow: 0.2px 0 0 rgba(0, 0, 0, 0.5), 0 0.2px 0 rgba(0, 0, 0, 0.5); */
+}
+
+/* ===== LAYOUT ===== */
+.content-container {
+  position: relative;
+  background-color: white;
+  padding: 3rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  padding-bottom: 13rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-header {
+  width: 100%;
+}
+
+/* ===== INVOICE HEADER ===== */
+.invoice-header-banner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 2.5rem;
+}
+
+.invoice-banner-left {
+  width: 50%;
+}
+
+.invoice-banner-right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+/* ===== LOGO ===== */
+.logo {
+  height: 200px;
+  width: 250px;
+  object-fit: contain;
+}
+
+/* ===== INVOICE DETAILS ===== */
+.invoice-details {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.invoice-details img {
+  width: 230px;
+}
+
+.invoice-number {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.invoice-title {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+/* ===== INVOICE SECTIONS ===== */
+.invoice-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 5rem;
+}
+
+.invoice-from,
+.invoice-to {
+  width: 50%;
+}
+
+.label {
+  font-size: 1.25rem;
+  color: #403f3f;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #808080;
+}
+
+/* ===== CONTACT INFO ===== */
+.contact-details {
+  padding-top: 0.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #808080;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.svg-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ===== QR CODE ===== */
+.qr-code {
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: 1rem;
+}
+
+/* ===== TABLE STYLES ===== */
+.table-wrapper {
+  margin-top: 2.5rem;
+}
+
+.invoice-table {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-collapse: collapse;
+}
+
+.invoice-table-bg {
+  background-color: #f5f5f7;
+}
+
+.table-header {
+  padding: 0.75rem;
+  text-align: left;
+  color: white;
+  background-color: #3b82f6;
+  font-weight: 500;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.table-header.text-center {
+  text-align: center;
+}
+
+.table-header.text-right {
+  text-align: right;
+}
+
+.table-row {
+  background-color: white;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f5f5f7;
+}
+
+.table-cell {
+  padding: 0.75rem;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/* ===== SUMMARY SECTION ===== */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.summary-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  justify-content: center;
+}
+
+.summary-margin-payment,
+.summary-margin-up {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-label {
+  font-size: 1rem;
+  color: #252525;
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 0.875rem;
+  color: #808080;
+  font-weight: 500;
+  margin-top: -0.5rem;
+}
+
+.in-words {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.point-summary {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.summary-table {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-collapse: collapse;
+}
+
+.summary-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #d9d9d9;
+  font-size: 0.7rem;
+  color: rgba(30, 30, 30, 0.87);
+}
+
+.summary-right .summary-table td {
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+/* ===== TOTAL SECTIONS ===== */
+.grand-total {
+  background-color: #3b82f6;
+}
+
+.grand-total td {
+  font-size: 1.25rem;
+  color: white;
+  font-weight: 600;
+}
+
+.paid-amount {
+  background-color: #b7dbfa;
+}
+
+.paid-amount td {
+  font-weight: 500;
+}
+
+.due-row {
+  background-color: white;
+}
+
+/* ===== PAID STAMP ===== */
+.paid-stamp {
+  margin-top: 2.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.paid-stamp-icon {
+  width: 6rem;
+  height: 6rem;
+}
+
+/* ===== FOOTER SHAPE ===== */
+.invoice-shape {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 12rem;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.max-width-20rem {
+  max-width: 20rem;
+}
+
+.whitespace-break-spaces {
+  white-space: break-spaces;
+}
+
+.text-small {
+  font-size: 0.7rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.text-dark-transparent {
+  color: rgba(30, 30, 30, 0.87);
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-white {
+  color: white;
+}
+
+.bg-light-gray {
+  background-color: #f5f5f7;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.border-none {
+  border: none;
+}
+
+.report-generate-date-time {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  font-size: 14px;
+}
+.report-generate-date-time span {
+ color: #808080;
+ font-size: 12px;
+}
+.report-delivery-date-time {
+  margin-top: 0.5rem;
+}
+
+.bill-to-section {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.invoice-to {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+.invoice-to {
+
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body {
+    /* Reset margins for printing */
+    margin: 0;
+    margin-left: -120px;
+  }
+
+  /* Keep the layout width for printing at a minimum of 1200px */
+  .content-container {
+    width: 1000px;
+    box-shadow: none; /* Remove box shadow */
+    padding: 0; /* Remove padding */
+    padding-bottom: 0;
+    margin: 0 auto; /* Center the content on the page */
+    position: static;
+    display: block;
+  }
+
+  /* Ensure backgrounds and colors are printed */
+  .table-header,
+  .grand-total,
+  .paid-amount,
+  .bg-light-gray,
+  .invoice-table-bg {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Print all borders */
+  .invoice-table,
+  .summary-table,
+  .invoice-table td,
+  .invoice-table th,
+  .summary-table td {
+    border-color: #d9d9d9 !important;
+    border-style: solid !important;
+  }
+
+  /* Remove elements not needed for printing */
+  .invoice-shape {
+    display: none;
+  }
+
+  /* Ensure fonts are rendered correctly */
+  .cursive-font {
+    font-family: "Parisienne", cursive !important;
+  }
+
+  .logo,
+  .qr-code,
+  .paid-stamp-icon {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
