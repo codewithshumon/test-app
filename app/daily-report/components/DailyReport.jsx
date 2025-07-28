@@ -82,7 +82,7 @@ const DailyReport = ({ setting, orderDetails, pdfRef, className }) => {
                       className="w-full h-full"
                     />
                   </div>
-                  <div className="">
+                  <div className="report-summary">
                     <div>
                       <p>Report Generated Time</p>
                       <div className="report-generate-date-time">
@@ -165,16 +165,6 @@ const DailyReport = ({ setting, orderDetails, pdfRef, className }) => {
                   )}
                 </p>
               </div>
-
-            
-
-              <div className="summary-margin-up">
-                <h3 className="summary-label">Terms and Conditions:</h3>
-                <p className="summary-value">
-                  {orderDetails.terms ||
-                    "Delivery timelines are estimates and not guaranteed. Seller is not liable for delays caused by third-party carriers."}
-                </p>
-              </div>
             </div>
 
             <div className="summary-right">
@@ -217,6 +207,13 @@ const DailyReport = ({ setting, orderDetails, pdfRef, className }) => {
                 </div>
               )}
             </div>
+          </div>
+
+          <div className="summary-margin-up">
+            <h3 className="summary-label">Thank you!</h3>
+            <p className="summary-value">
+               Thanks for choosing us! We appreciate your loyalty. Please pay your dues quickly.
+            </p>
           </div>
 
           <div className="invoice-shape">
