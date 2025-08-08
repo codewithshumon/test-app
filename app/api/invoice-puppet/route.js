@@ -38,11 +38,15 @@ export async function POST(req) {
 
 
     // Generate the PDF buffer
-    const pdfBuffer = await page.pdf({ 
-      format: 'A4', 
-      printBackground: true, // Ensure backgrounds are printed as well
-      margin: { top: '20mm', right: '10mm', bottom: '20mm', left: '10mm' },
-    });
+  const pdfBuffer = await page.pdf({ 
+    format: 'A4', 
+    printBackground: true,
+    margin: { top: '20mm', right: '10mm', bottom: '20mm', left: '10mm' },
+    displayHeaderFooter: true,
+    headerTemplate: '<div style="font-size:10px; padding: 10px; text-align: center;">Header Content</div>',
+    footerTemplate: '<div style="font-size:10px; padding: 10px; text-align: center;">Footer Content</div>',
+  });
+
 
     await browser.close();
 
